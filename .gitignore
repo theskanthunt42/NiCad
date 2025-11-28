@@ -5,3 +5,4 @@ bin
 *.gpx
 .DS_Store
 pyvenv.cfg
+poc_trial.txt
