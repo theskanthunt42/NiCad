@@ -39,17 +39,34 @@ def TimePassed(GPXObject: dict):
 def DistanceTravelCount(GPXObject: dict) -> float:
     count = 0
     distance = 0
+    d_pnt = 0
+    p_pnt = ()
+    p_time = ""
     for i in GPXObject['gpx']['trk']['trkseg']:
-        for tmp in GPXObject['gpx']['trk']['trkseg'][1]['trkpt']:
-            pnt = (GPXObject['gpx']['trk']['trkseg'][1]['trkpt'][tmp]['@lat'], GPXObject['gpx']['trk']['trkseg'][1]['trkpt'][tmp]['@lon'])
-            if CheckTrkPt(GPXObject) < count:
-                x_pnt = (GPXObject['gpx']['trk']['trkseg'][1]['trkpt'][tmp+1]['@lat'], GPXObject['gpx']['trk']['trkseg'][1]['trkpt'][tmp+1]['@lat'])
-                d_pnt = geodesic(pnt, x_pnt).kilometers
+        # Debug only
+        # print(type(i))
+        # print(i)
+        # Debug end
+        for tmp in i['trkpt']:
+            # Debug only
+            # print(type(tmp))
+            # print(tmp)
+            pnt = (tmp['@lat'], tmp['@lon'])
+            # print(type(pnt))
+            # print(pnt)
+            # Debug end
+            if p_pnt is not pnt:
+                d_pnt = geodesic(p_pnt, pnt).kilometers
+                # You could use a tuple here btw
+                p_pnt = pnt
+                #print(d_pnt)
+                distance = distance + d_pnt
             else:
-                d_pnt = 0
                 pass
-            distance = distance + d_pnt
-            count = count + 1
+            # print(distance)
+    
+            # print(count)
+        count = count + 1
     return distance
 
 
